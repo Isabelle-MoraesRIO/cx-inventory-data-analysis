@@ -1,0 +1,78 @@
+# ==============================================================================
+# PROJETO: Otimização de CX & Gestão de Estoque Crítico
+# AUTORA: Isabelle Moraes
+# OBJETIVO: ETL (Extração, Tratamento e Limpeza de Dados de Suporte e Estoque)
+# ==============================================================================
+
+import pandas as pd
+import numpy as np
+
+def limpar_dados_suporte(caminho_arquivo):
+    """
+    Carrega, limpa e padroniza a base de chamados de suporte ao cliente (CX).
+    """
+    print("Iniciando a limpeza dos dados de suporte...")
+    
+    # 1. Carregar dados brutos (simulação de carregamento)
+    try:
+        df = pd.read_csv(caminho_arquivo)
+    except FileNotFoundError:
+        = {
+            'ID_Chamado': [101, 102, 103, 104, 102, 105],
+            'Data': ['2026-07-10', '2026-07-11', None, '2026-07-12', '2026-07-11', '2026-07-13'],
+            'Cliente': ['Clara', 'Davi', 'Fábio', 'Matheus', 'Davi', 'Ryan'],
+            'Categoria': ['Atraso na Entrega', 'Produto Incorreto', 'Dúvida', 'Erro no Estoque', 'Produto Incorreto', 'Reclamação'],
+            'Insumo_Critico': ['Pistache', 'Creme', 'Geral', 'Pistache', 'Pistache', 'Morango'],
+            'Status': ['Aberto', 'Resolvido', 'Aberto', 'Pendente', 'Resolvido', None]
+        }
+        df = pd.DataFrame(dados_ficticios)
+        print("Aviso: Arquivo físico não encontrado. Utilizando simulação de dados brutos.")
+
+    # 2. Remoção de registros duplicados (IDs duplicados)
+    duplicados_antes = df.duplicated().sum()
+    df = df.drop_duplicates(subset=['ID_Chamado'])
+    print(f"-> Registros duplicados removidos: {duplicados_antes}")
+
+    # 3. Tratamento de valores nulos (Missing Data)
+    df['Data'] = df['Data'].fillna(method='ffill').fillna('2026-07-10')
+    df['Status'] = df['Status'].fillna('Aberto')
+
+    # 4. Padronização de textos e categorias
+    df['Insumo_Critico'] = df['Insumo_Critico'].replace({'Pistachio': 'Pistache', 'pistache': 'Pistache'})
+    df['Categoria'] = df['Categoria'].str.strip().str.title()
+
+    print("Limpeza de suporte concluída com sucesso!")
+    return df
+
+
+def limpar_dados_estoque(df_suporte):
+    """
+    Gera o relatório de volumetria consolidado para o dashboard.
+    """
+    print("\nConsolidando métricas de estoque e suporte...")
+    
+    # Agrupando por categoria de insumo crítico para identificar os principais gargalos
+    relatorio = df_suporte.groupby('Insumo_Critico').agg(
+        Total_Chamados=('ID_Chamado', 'count'),
+        Chamados_Abertos=('Status', lambda x: (x == 'Aberto').sum())
+    ).reset_index()
+    
+    # Adicionando um indicador de criticidade (Métrica Calculada)
+    relatorio['Nivel_Alerta'] = np.where(relatorio['Total_Chamados'] > 2, 'Alto', 'Normal')
+    
+    return relatorio
+
+
+# --- Execução Principal ---
+if __name__ == "__main__":
+    df_chamados_limpos = limpar_dados_suporte("chamados_suporte_bruto.csv")
+    df_consolidado = limpar_dados_estoque(df_chamados_limpos)
+    
+    print("\n=== BASE DE CHAMADOS LIMPA (Pronta para o Power BI) ===")
+    print(df_chamados_limpos)
+    
+    print("\n=== CONSOLIDAÇÃO PARA GESTÃO DE ESTOQUE ===")
+    print(df_consolidado)
+    
+    df_chamados_limpos.to_csv("chamados_suporte_limpo.csv", index=False)
+    print("\nArquivo 'chamados_suporte_limpo.csv' gerado com sucesso!")
