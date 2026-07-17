@@ -13,23 +13,23 @@ def limpar_dados_suporte(caminho_arquivo):
     """
     print("Iniciando a limpeza dos dados de suporte...")
     
-    # 1. Carregar dados brutos (simulação de carregamento)
+    # 1. Carregar dados brutos (simulação de carregamento corporativo)
     try:
         df = pd.read_csv(caminho_arquivo)
     except FileNotFoundError:
-        = {
-            'ID_Chamado': [101, 102, 103, 104, 102, 105],
+        dados_ficticios = {
+            'ID_Chamado': [10214, 10215, 10216, 10217, 10215, 10218],
             'Data': ['2026-07-10', '2026-07-11', None, '2026-07-12', '2026-07-11', '2026-07-13'],
-            'Cliente': ['Clara', 'Davi', 'Fábio', 'Matheus', 'Davi', 'Ryan'],
-            'Categoria': ['Atraso na Entrega', 'Produto Incorreto', 'Dúvida', 'Erro no Estoque', 'Produto Incorreto', 'Reclamação'],
-            'Insumo_Critico': ['Pistache', 'Creme', 'Geral', 'Pistache', 'Pistache', 'Morango'],
+            'Cod_Cliente': ['CX-9942', 'CX-1053', 'CX-4412', 'CX-8871', 'CX-1053', 'CX-3309'],
+            'Categoria': ['Atraso na Entrega', 'Avaria no Produto', 'Dúvida Comercial', 'Divergência de Estoque', 'Avaria no Produto', 'Estorno de Valores'],
+            'Insumo_Critico': ['Embalagem Premium', 'Componente A', 'Geral', 'Componente A', 'Componente A', 'Matéria-Prima B'],
             'Status': ['Aberto', 'Resolvido', 'Aberto', 'Pendente', 'Resolvido', None]
         }
         df = pd.DataFrame(dados_ficticios)
-        print("Aviso: Arquivo físico não encontrado. Utilizando simulação de dados brutos.")
+        print("Aviso: Arquivo físico não encontrado. Utilizando simulação de dados corporativos.")
 
-    # 2. Remoção de registros duplicados (IDs duplicados)
-    duplicados_antes = df.duplicated().sum()
+    # 2. Remoção de registros duplicados (IDs duplicados de chamados)
+    duplicados_antes = df.duplicated(subset=['ID_Chamado']).sum()
     df = df.drop_duplicates(subset=['ID_Chamado'])
     print(f"-> Registros duplicados removidos: {duplicados_antes}")
 
@@ -37,8 +37,8 @@ def limpar_dados_suporte(caminho_arquivo):
     df['Data'] = df['Data'].fillna(method='ffill').fillna('2026-07-10')
     df['Status'] = df['Status'].fillna('Aberto')
 
-    # 4. Padronização de textos e categorias
-    df['Insumo_Critico'] = df['Insumo_Critico'].replace({'Pistachio': 'Pistache', 'pistache': 'Pistache'})
+    # 4. Padronização de textos e categorias (Garantindo consistência)
+    df['Insumo_Critico'] = df['Insumo_Critico'].str.strip().str.title()
     df['Categoria'] = df['Categoria'].str.strip().str.title()
 
     print("Limpeza de suporte concluída com sucesso!")
@@ -57,7 +57,7 @@ def limpar_dados_estoque(df_suporte):
         Chamados_Abertos=('Status', lambda x: (x == 'Aberto').sum())
     ).reset_index()
     
-    # Adicionando um indicador de criticidade (Métrica Calculada)
+    # Adicionando um indicador de criticidade (Métrica Calculada via NumPy)
     relatorio['Nivel_Alerta'] = np.where(relatorio['Total_Chamados'] > 2, 'Alto', 'Normal')
     
     return relatorio
@@ -65,14 +65,17 @@ def limpar_dados_estoque(df_suporte):
 
 # --- Execução Principal ---
 if __name__ == "__main__":
+    # Executa o pipeline de ETL
     df_chamados_limpos = limpar_dados_suporte("chamados_suporte_bruto.csv")
     df_consolidado = limpar_dados_estoque(df_chamados_limpos)
     
+    # Exibe os resultados tratados no terminal
     print("\n=== BASE DE CHAMADOS LIMPA (Pronta para o Power BI) ===")
-    print(df_chamados_limpos)
+    print(df_chamados_limpos.to_string(index=False))
     
     print("\n=== CONSOLIDAÇÃO PARA GESTÃO DE ESTOQUE ===")
-    print(df_consolidado)
+    print(df_consolidado.to_string(index=False))
     
+    # Exporta o resultado para um novo arquivo CSV limpo
     df_chamados_limpos.to_csv("chamados_suporte_limpo.csv", index=False)
     print("\nArquivo 'chamados_suporte_limpo.csv' gerado com sucesso!")
