@@ -1,20 +1,25 @@
-# cx-inventory-data-analysis
-Projeto prático de análise de dados focado em Customer Experience (CX) e gestão de estoque. Tratamento e limpeza de dados com Python (Pandas) e visualização interativa no Power BI.
-# Análise de Dados: Otimização de CX & Estoque Crítico 📊🐍
+# Olá, eu sou a Isabelle Moraes! 👋
 
-Este projeto foi desenvolvido com o objetivo de simular e resolver um problema real de negócio: a análise de volumetria de chamados de suporte ao cliente (Customer Experience) integrada ao controle de estoque de insumos críticos de uma operação ativa.
+Bem-vindo(a) ao meu portfólio profissional. Sou estudante de Marketing com 9 anos de experiência consolidada em atendimento e relacionamento com clientes. Atualmente, estou em transição de carreira, focando em papéis analíticos como **Analista de Backoffice de CX, Inteligência de Mercado e Marketing Analítico**.
 
-## 🛠️ Tecnologias Utilizadas
-* **Python**: Para a etapa de ETL (Extração, Tratamento e Limpeza dos dados).
-* **Pandas**: Biblioteca utilizada para manipulação de dados, tratamento de valores nulos, duplicados e correção de inconsistências.
-* **Power BI**: Para modelagem, criação de medidas e desenvolvimento do dashboard executivo interativo.
-
-## 🎯 O Problema de Negócio
-A base de dados de chamados de suporte e movimentações de estoque apresentava diversas inconsistências (erros de digitação, registros duplicados e campos nulos). Sem o tratamento adequado, qualquer análise de métricas operacionais e de experiência do cliente seria imprecisa.
-
-## ⚙️ O que foi feito (Passo a Passo)
-1. **Tratamento em Python**: Importação dos dados brutos, remoção de registros duplicados, tratamento de valores nulos e exportação da base limpa em formato pronto para análise.
-2. **Visualização no Power BI**: Criação de gráficos de volumetria de chamados e status de estoque para facilitar a tomada de decisão da equipe de operações.
+Acredito no poder dos dados para transformar a experiência do cliente e gerar resultados reais de negócio. Por isso, venho me especializando em ferramentas analíticas e automação.
 
 ---
-*Projeto desenvolvido por Isabelle Moraes como parte do portfólio de transição para a área de Dados, CRM e inteligência de Mercado.*
+
+### 🛠️ Competências & Ferramentas
+* **Análise de Dados & CX:** Python (Pandas, NumPy), Power BI
+* **Marketing Digital:** Google Ads, Estratégias de Tráfego e Performance
+* **Certificações:** Comunicação e Mobilização com IA (Fundação Bradesco)
+
+---
+
+### 🚀 Projetos em Destaque
+
+* **[Otimização de CX & Gestão de Estoque Crítico](https://github.com/Isabelle-MoraesRIO/cx-inventory-data-analysis/blob/main/EXE.PHYTONG):** Script em Python focado em processos de ETL (Extração, Tratamento e Limpeza de Dados) para otimizar chamados de suporte e controle crítico de estoque.
+* **[Análise de NPS e Satisfação por Canal](https://github.com/Isabelle-MoraesRIO/cx-inventory-data-analysis/blob/main/analise-nps-cx.ipynb):** Análise automatizada utilizando Pandas para calcular o Net Promoter Score geral e segmentado por canais (Presencial, WhatsApp, Site), com simulações de cenários de recuperação de clientes detratores.
+
+---
+
+### 📫 Como me encontrar:
+* **LinkedIn:** [https://www.linkedin.com/in/isabellemoraescx/]
+* **E-mail:** [isabelle_moraes2014@hotmail.com]
