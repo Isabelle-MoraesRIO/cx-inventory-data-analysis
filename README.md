@@ -1,4 +1,4 @@
-# Olá, eu sou a Isabelle Moraes! 👋
+# Olá, eu sou Isabelle Moraes! 👋
 
 Bem-vindo(a) ao meu portfólio profissional. Sou estudante de Marketing com 9 anos de experiência consolidada em atendimento e relacionamento com clientes. Atualmente, estou em transição de carreira, focando em papéis analíticos como **Analista de Backoffice de CX, Inteligência de Mercado e Marketing Analítico**.
 
